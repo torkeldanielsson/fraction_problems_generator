@@ -1,2 +1,4 @@
 /target/
 **/*.rs.bk
+gen.tex
+output.pdf
