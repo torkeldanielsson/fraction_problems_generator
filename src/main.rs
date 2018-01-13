@@ -3,6 +3,7 @@ extern crate rand;
 use std::fs::File;
 use std::io::prelude::*;
 use rand::distributions::IndependentSample;
+use rand::Rng;
 
 fn main() {
     let mut rng = rand::thread_rng();
@@ -14,18 +15,34 @@ fn main() {
     file.write_all(b"\\begin{document}\n").expect("4");
     file.write_all(b"\n\\huge\n\n").expect("5");
 
-    for i in 0..8 {
-        let range = rand::distributions::Range::new(2, 13);
+    let mut problems = Vec::new();
 
-        let mut a = range.ind_sample(&mut rng);
+    for i in 0..13 {
+        let a = rand::distributions::Range::new(1, 13).ind_sample(&mut rng);
+        let b = rand::distributions::Range::new(1, 13).ind_sample(&mut rng);
+        let problem;
+        let mut sign = "+";
+        if rand::distributions::Range::new(0, 2).ind_sample(&mut rng) == 0 {
+            sign = "-";
+        }
+        if i % 2 == 1 {
+            problem = format!("\\({} {} x = {}\\)\\\\\\\n\n", a, sign, b);
+        } else {
+            problem = format!("\\(x {} {} = {}\\)\\\\\\\n\n", sign, a, b);
+        }
+        problems.push(problem);
+    }
+/*
+    for i in 0..4 {
+        let mut a = rand::distributions::Range::new(2, 13).ind_sample(&mut rng);
         let mut b = a;
         while b == a {
-            b = range.ind_sample(&mut rng);
+            b = rand::distributions::Range::new(2, 13).ind_sample(&mut rng);
         }
-        let mut c = range.ind_sample(&mut rng);
+        let mut c = rand::distributions::Range::new(2, 13).ind_sample(&mut rng);
         let mut d = c;
         while d == c || d == b {
-            d = range.ind_sample(&mut rng);
+            d = rand::distributions::Range::new(2, 13).ind_sample(&mut rng);
         }
         if i % 2 == 1 {
             a = rand::distributions::Range::new(2, 7).ind_sample(&mut rng);
@@ -36,24 +53,54 @@ fn main() {
                 d = c * rand::distributions::Range::new(2, 9).ind_sample(&mut rng);
             }
         }
-        write!(file, "\\(\\frac{{{}}}{{{}}} ", a, b).expect("6");
+        let mut problem: String;
+        problem = format!("\\(\\dfrac{{{}}}{{{}}}", a, b);
         if i % 2 == 0 {
-            write!(file, "+ ").expect("7a");            
+            problem = format!("{} + ", problem);            
         } else {
-            write!(file, "- ").expect("7b"); 
+            problem = format!("{} - ", problem);            
         }
-        writeln!(file, "\\frac{{{}}}{{{}}} = \\)\\\\\\\n", c, d).expect("8");
+        problem = format!("{}\\dfrac{{{}}}{{{}}} = \\)\\\\\\\n\n", problem, c, d);
+        problems.push(problem);
     }
 
-    for _i in 0..5 {
+    for i in 0..3 {
         let mut d = 10;
         while d == 10 {
             d = rand::distributions::Range::new(6, 13).ind_sample(&mut rng);
         }
         let r = rand::distributions::Range::new(30, 9999).ind_sample(&mut rng);
-        let n = r*d;
-        writeln!(file, "\\(\\frac{{{}}}{{{}}} = \\)\\\\\\\n", n, d).expect("9");
+        let n = r * d;
+        let problem;
+        if i % 2 == 1 {
+            problem = format!("\\(\\dfrac{{{}}}{{{}}} = \\)\\\\\\\n\n", n, d);
+        } else {
+            problem = format!("\\({} / {} = \\)\\\\\\\n\n", n, d);
+        }
+        problems.push(problem);
     }
 
-    file.write_all(b"\\end{document}\n").expect("8");
+    for i in 0..3 {
+        let mut d = 10;
+        while d == 10 {
+            d = rand::distributions::Range::new(6, 13).ind_sample(&mut rng);
+        }
+        let r = rand::distributions::Range::new(30, 999).ind_sample(&mut rng);
+        let problem;
+        if i % 2 == 0 {
+            problem = format!("\\({} * {} =\\)\\\\\\\n\n", d, r);
+        } else {
+            problem = format!("\\({} * {} =\\)\\\\\\\n\n", r, d);
+        }
+        problems.push(problem);
+    }
+*/
+    let slice: &mut [String] = problems.as_mut_slice();
+    rng.shuffle(slice);
+
+    for problem in slice {
+        file.write_all(problem.as_bytes()).expect("6");
+    }
+
+    file.write_all(b"\\end{document}\n").expect("7");
 }
