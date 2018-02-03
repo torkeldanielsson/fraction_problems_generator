@@ -17,7 +17,15 @@ fn main() {
 
     let mut problems = Vec::new();
 
-    for i in 0..10 {
+
+    for _i in 0..3 {
+        let d = rand::distributions::Range::new(1, 12).ind_sample(&mut rng);
+        let e = rand::distributions::Range::new(2, 5).ind_sample(&mut rng);
+        let problem = format!("\\({}^{} = \\)\\\\\\\n\n", d, e);
+        problems.push(problem);
+    }
+
+    for i in 0..7 {
         let mut a: i32 = 0;
         while a.abs() < 3 || a.abs() == 10 {
             a = rand::distributions::Range::new(-13, 13).ind_sample(&mut rng);
@@ -66,7 +74,7 @@ fn main() {
             b = rand::distributions::Range::new(-9, 9).ind_sample(&mut rng);
         }
 
-        let chars = vec!['x', 'y', 'z', 'a', 'b', 'c'];
+        let chars = vec!["x", "y", "z", "\\alpha", "\\beta", "\\gamma"];
         let c = rng.choose(&chars).expect("");
 
         let problem;
@@ -77,13 +85,13 @@ fn main() {
         }
 
         if i % 2 == 1 {
-            problem = format!("\\({} {} {} = {} \\quad => \\quad {} =\\)\\\\\\\n\n", a, sign, c, b, c);
+            problem = format!("\\({} {} {} = {} \\quad \\rightarrow \\quad {} =\\)\\\\\\\n\n", a, sign, c, b, c);
 
         } else {
             if a < 0 {
                 sign = "";
             }
-            problem = format!("\\({} {} {} = {} \\quad => \\quad {} =\\)\\\\\\\n\n", c, sign, a, b, c);
+            problem = format!("\\({} {} {} = {} \\quad \\rightarrow \\quad {} =\\)\\\\\\\n\n", c, sign, a, b, c);
         }
         problems.push(problem);
     }
