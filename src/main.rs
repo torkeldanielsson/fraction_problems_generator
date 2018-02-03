@@ -18,21 +18,46 @@ fn main() {
     let mut problems = Vec::new();
 
     for i in 0..13 {
-        let a = rand::distributions::Range::new(1, 13).ind_sample(&mut rng);
-        let b = rand::distributions::Range::new(1, 13).ind_sample(&mut rng);
+        let d = rand::distributions::Range::new(1, 12).ind_sample(&mut rng);
+        let problem = format!("\\(\\sqrt{{{}}} = \\)\\\\\\\n\n", d*d);
+        problems.push(problem);
+    }
+
+    /*
+
+    for i in 0..3 {
+        let mut a = 0;
+        while a == 0 {
+            a = rand::distributions::Range::new(-9, 9).ind_sample(&mut rng);
+        }
+
+        let mut b = 0;
+        while b == 0 || b == a {
+            b = rand::distributions::Range::new(-9, 9).ind_sample(&mut rng);
+        }
+
+        let chars = vec!['x', 'y', 'z', 'a', 'b', 'c'];
+        let c = rng.choose(&chars).expect("");
+
         let problem;
+
         let mut sign = "+";
         if rand::distributions::Range::new(0, 2).ind_sample(&mut rng) == 0 {
             sign = "-";
         }
+
         if i % 2 == 1 {
-            problem = format!("\\({} {} x = {}\\)\\\\\\\n\n", a, sign, b);
+            problem = format!("\\({} {} {} = {} \\quad => \\quad {} =\\)\\\\\\\n\n", a, sign, c, b, c);
+
         } else {
-            problem = format!("\\(x {} {} = {}\\)\\\\\\\n\n", sign, a, b);
+            if a < 0 {
+                sign = "";
+            }
+            problem = format!("\\({} {} {} = {} \\quad => \\quad {} =\\)\\\\\\\n\n", c, sign, a, b, c);
         }
         problems.push(problem);
     }
-/*
+
     for i in 0..4 {
         let mut a = rand::distributions::Range::new(2, 13).ind_sample(&mut rng);
         let mut b = a;
@@ -54,7 +79,11 @@ fn main() {
             }
         }
         let mut problem: String;
-        problem = format!("\\(\\dfrac{{{}}}{{{}}}", a, b);
+        if rand::distributions::Range::new(0, 4).ind_sample(&mut rng) == 0 {
+            problem = format!("\\( - \\dfrac{{{}}}{{{}}}", a, b);
+        } else {
+            problem = format!("\\(\\dfrac{{{}}}{{{}}}", a, b);
+        }
         if i % 2 == 0 {
             problem = format!("{} + ", problem);            
         } else {
@@ -83,9 +112,9 @@ fn main() {
     for i in 0..3 {
         let mut d = 10;
         while d == 10 {
-            d = rand::distributions::Range::new(6, 13).ind_sample(&mut rng);
+            d = rand::distributions::Range::new(3, 13).ind_sample(&mut rng);
         }
-        let r = rand::distributions::Range::new(30, 999).ind_sample(&mut rng);
+        let r = rand::distributions::Range::new(999, 99999).ind_sample(&mut rng);
         let problem;
         if i % 2 == 0 {
             problem = format!("\\({} * {} =\\)\\\\\\\n\n", d, r);
@@ -94,7 +123,9 @@ fn main() {
         }
         problems.push(problem);
     }
-*/
+
+    */
+
     let slice: &mut [String] = problems.as_mut_slice();
     rng.shuffle(slice);
 

@@ -10,5 +10,5 @@ cd "$( dirname "${BASH_SOURCE[0]}")"
 for i in `seq 1 $1`;
 do
     ./generate.sh
-    cp output.pdf output_${i}.pdf
+    lp output.pdf
 done 
