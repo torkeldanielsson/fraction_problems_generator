@@ -17,15 +17,45 @@ fn main() {
 
     let mut problems = Vec::new();
 
-    for i in 0..13 {
+    for i in 0..10 {
+        let mut a: i32 = 0;
+        while a.abs() < 3 || a.abs() == 10 {
+            a = rand::distributions::Range::new(-13, 13).ind_sample(&mut rng);
+        }
+        let mut b = 0;
+        while b == 0 || b == a {
+            b = rand::distributions::Range::new(-999999, 999999).ind_sample(&mut rng);
+        }
+        if i % 2 == 0 {
+            let tmp = a;
+            a = b;
+            b = tmp;
+        }
+        let mut problem = format!("\\(");
+        if a < 0 {
+            problem = format!("{}\\left({}\\right)", problem, a);
+        } else {
+            problem = format!("{}{}", problem, a);
+        }
+        if a > 0 && b > 0 {
+            problem = format!("{}\\cdot", problem);
+        }
+        if b < 0 {
+            problem = format!("{}\\left({}\\right)", problem, b);
+        } else {
+            problem = format!("{}{}", problem, b);
+        }
+        problem = format!("{}=\\)\\\\\\\n\n", problem);
+        problems.push(problem);
+    }
+
+    for _i in 1..3 {
         let d = rand::distributions::Range::new(1, 12).ind_sample(&mut rng);
         let problem = format!("\\(\\sqrt{{{}}} = \\)\\\\\\\n\n", d*d);
         problems.push(problem);
     }
 
-    /*
-
-    for i in 0..3 {
+    for i in 0..7 {
         let mut a = 0;
         while a == 0 {
             a = rand::distributions::Range::new(-9, 9).ind_sample(&mut rng);
@@ -108,23 +138,6 @@ fn main() {
         }
         problems.push(problem);
     }
-
-    for i in 0..3 {
-        let mut d = 10;
-        while d == 10 {
-            d = rand::distributions::Range::new(3, 13).ind_sample(&mut rng);
-        }
-        let r = rand::distributions::Range::new(999, 99999).ind_sample(&mut rng);
-        let problem;
-        if i % 2 == 0 {
-            problem = format!("\\({} * {} =\\)\\\\\\\n\n", d, r);
-        } else {
-            problem = format!("\\({} * {} =\\)\\\\\\\n\n", r, d);
-        }
-        problems.push(problem);
-    }
-
-    */
 
     let slice: &mut [String] = problems.as_mut_slice();
     rng.shuffle(slice);
