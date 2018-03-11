@@ -32,7 +32,7 @@ fn main() {
         }
         let mut b = 0;
         while b == 0 || b == a {
-            b = rand::distributions::Range::new(-999999, 999999).ind_sample(&mut rng);
+            b = rand::distributions::Range::new(-99, 99).ind_sample(&mut rng);
         }
         if i % 2 == 0 {
             let tmp = a;
@@ -134,9 +134,9 @@ fn main() {
     for i in 0..3 {
         let mut d = 10;
         while d == 10 {
-            d = rand::distributions::Range::new(6, 13).ind_sample(&mut rng);
+            d = rand::distributions::Range::new(3, 13).ind_sample(&mut rng);
         }
-        let r = rand::distributions::Range::new(30, 9999).ind_sample(&mut rng);
+        let r = rand::distributions::Range::new(12, 51).ind_sample(&mut rng);
         let n = r * d;
         let problem;
         if i % 2 == 1 {
