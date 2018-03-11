@@ -6,6 +6,27 @@ use rand::distributions::IndependentSample;
 use rand::Rng;
 
 fn main() {
+/*
+    let decimal_add_sub = 4;
+    let power = 3;
+    let multiplication = 3;
+    let square_root = 2;
+    let integer_equation = 5;
+    let fraction_add_sub = 2;
+    let fraction_multiplication = 4;
+    let division = 3;
+*/
+
+    let decimal_add_sub = 10;
+    let power = 0;
+    let multiplication = 0;
+    let square_root = 0;
+    let integer_equation = 0;
+    let fraction_add_sub = 0;
+    let fraction_multiplication = 10;
+    let division = 0;
+
+
     let mut rng = rand::thread_rng();
 
     let mut file = File::create("gen.tex").unwrap();
@@ -17,15 +38,55 @@ fn main() {
 
     let mut problems = Vec::new();
 
+    for _i in 0..decimal_add_sub {
+        let a_ints = rand::distributions::Range::new(1, 4).ind_sample(&mut rng);
+        let a_decs = rand::distributions::Range::new(2, 5).ind_sample(&mut rng);
+        let b_ints = rand::distributions::Range::new(1, 4).ind_sample(&mut rng);
+        let b_decs = rand::distributions::Range::new(2, 5).ind_sample(&mut rng);
 
-    for _i in 0..3 {
-        let d = rand::distributions::Range::new(1, 12).ind_sample(&mut rng);
-        let e = rand::distributions::Range::new(2, 5).ind_sample(&mut rng);
-        let problem = format!("\\({}^{} = \\)\\\\\\\n\n", d, e);
+        let mut problem = format!("\\(");
+
+        for j in 0..a_ints {
+            let mut rnd_start = 0;
+            if a_ints != 1 && j == 0 {
+                rnd_start = 1;
+            }
+            problem = format!("{}{}", problem, rand::distributions::Range::new(rnd_start, 10).ind_sample(&mut rng));
+        }
+        problem = format!("{}.", problem);
+        for _j in 0..a_decs {
+            problem = format!("{}{}", problem, rand::distributions::Range::new(0, 10).ind_sample(&mut rng));
+        }
+        problem = format!("{} + ", problem);
+
+        for j in 0..b_ints {
+            let mut rnd_start = 0;
+            if b_ints != 1 && j == 0 {
+                rnd_start = 1;
+            }
+            problem = format!("{}{}", problem, rand::distributions::Range::new(rnd_start, 10).ind_sample(&mut rng));
+        }
+        problem = format!("{}.", problem);
+        for _j in 0..b_decs {
+            problem = format!("{}{}", problem, rand::distributions::Range::new(0, 10).ind_sample(&mut rng));
+        }
+
+        problem = format!("{} =\\)\\\\\\\n\n", problem);
         problems.push(problem);
     }
 
-    for i in 0..7 {
+    for _i in 0..power {
+        let mut d : u32 = 12;
+        let mut e : u32 = 5;
+        while d.pow(e) > 200 {
+            d = rand::distributions::Range::new(1, 12).ind_sample(&mut rng);
+            e = rand::distributions::Range::new(2, 5).ind_sample(&mut rng);
+        }
+        let problem = format!("\\({}^{} =\\)\\\\\\\n\n", d, e);
+        problems.push(problem);
+    }
+
+    for i in 0..multiplication {
         let mut a: i32 = 0;
         while a.abs() < 3 || a.abs() == 10 {
             a = rand::distributions::Range::new(-13, 13).ind_sample(&mut rng);
@@ -57,13 +118,13 @@ fn main() {
         problems.push(problem);
     }
 
-    for _i in 1..3 {
+    for _i in 0..square_root {
         let d = rand::distributions::Range::new(1, 12).ind_sample(&mut rng);
         let problem = format!("\\(\\sqrt{{{}}} = \\)\\\\\\\n\n", d*d);
         problems.push(problem);
     }
 
-    for i in 0..7 {
+    for i in 0..integer_equation {
         let mut a = 0;
         while a == 0 {
             a = rand::distributions::Range::new(-9, 9).ind_sample(&mut rng);
@@ -96,7 +157,7 @@ fn main() {
         problems.push(problem);
     }
 
-    for i in 0..4 {
+    for i in 0..fraction_add_sub {
         let mut a = rand::distributions::Range::new(2, 13).ind_sample(&mut rng);
         let mut b = a;
         while b == a {
@@ -131,7 +192,25 @@ fn main() {
         problems.push(problem);
     }
 
-    for i in 0..3 {
+    for _i in 0..fraction_multiplication {
+        let a = rand::distributions::Range::new(2, 10).ind_sample(&mut rng);
+        let mut b = a;
+        while b == a {
+            b = rand::distributions::Range::new(2, 10).ind_sample(&mut rng);
+        }
+        let mut c = a;
+        while c == a || c == b {
+            c = rand::distributions::Range::new(2, 10).ind_sample(&mut rng);
+        }
+        let mut d = c;
+        while d == a || d == b || d == c {
+            d = rand::distributions::Range::new(2, 10).ind_sample(&mut rng);
+        }
+
+        problems.push(format!("\\(\\dfrac{{{}}}{{{}}} \\cdot \\dfrac{{{}}}{{{}}} = \\)\\\\\\\n\n", a, b, c, d));
+    }
+
+    for i in 0..division {
         let mut d = 10;
         while d == 10 {
             d = rand::distributions::Range::new(3, 13).ind_sample(&mut rng);
