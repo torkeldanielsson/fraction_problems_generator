@@ -39,10 +39,10 @@ fn main() {
     let mut problems = Vec::new();
 
     for _i in 0..decimal_add_sub {
-        let a_ints = rand::distributions::Range::new(1, 4).ind_sample(&mut rng);
-        let a_decs = rand::distributions::Range::new(2, 5).ind_sample(&mut rng);
-        let b_ints = rand::distributions::Range::new(1, 4).ind_sample(&mut rng);
-        let b_decs = rand::distributions::Range::new(2, 5).ind_sample(&mut rng);
+        let a_ints = rand::distributions::Range::new(1, 2).ind_sample(&mut rng);
+        let a_decs = rand::distributions::Range::new(1, 2).ind_sample(&mut rng);
+        let b_ints = rand::distributions::Range::new(1, 2).ind_sample(&mut rng);
+        let b_decs = rand::distributions::Range::new(1, 2).ind_sample(&mut rng);
 
         let mut problem = format!("\\(");
 
