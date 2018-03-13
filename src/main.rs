@@ -17,13 +17,14 @@ fn main() {
     let division = 3;
 */
 
-    let decimal_add_sub = 10;
+    let decimal_add_sub = 0;
     let power = 0;
     let multiplication = 0;
     let square_root = 0;
     let integer_equation = 0;
     let fraction_add_sub = 0;
-    let fraction_multiplication = 10;
+    let fraction_multiplication = 0;
+    let fraction_equation = 12;
     let division = 0;
 
 
@@ -39,10 +40,10 @@ fn main() {
     let mut problems = Vec::new();
 
     for _i in 0..decimal_add_sub {
-        let a_ints = rand::distributions::Range::new(1, 2).ind_sample(&mut rng);
-        let a_decs = rand::distributions::Range::new(1, 2).ind_sample(&mut rng);
-        let b_ints = rand::distributions::Range::new(1, 2).ind_sample(&mut rng);
-        let b_decs = rand::distributions::Range::new(1, 2).ind_sample(&mut rng);
+        let a_ints = rand::distributions::Range::new(1, 4).ind_sample(&mut rng);
+        let a_decs = rand::distributions::Range::new(1, 4).ind_sample(&mut rng);
+        let b_ints = rand::distributions::Range::new(1, 4).ind_sample(&mut rng);
+        let b_decs = rand::distributions::Range::new(1, 4).ind_sample(&mut rng);
 
         let mut problem = format!("\\(");
 
@@ -208,6 +209,29 @@ fn main() {
         }
 
         problems.push(format!("\\(\\dfrac{{{}}}{{{}}} \\cdot \\dfrac{{{}}}{{{}}} = \\)\\\\\\\n\n", a, b, c, d));
+    }
+
+    for _i in 0..fraction_equation {
+        let mut digits: Vec<i32> = (1..7).collect();
+        let digit_slice: &mut [i32] = digits.as_mut_slice();
+        rng.shuffle(digit_slice);
+        
+        let mut chosen_digits: Vec<String> = Vec::new();
+        for _j in 0..3 {
+            chosen_digits.push(format!("{}", rng.choose(digit_slice).unwrap()));
+        }
+
+        let chars = vec!["x", "y", "z", "\\alpha", "\\beta", "\\gamma"];
+        chosen_digits.push(format!("{}", rng.choose(&chars).expect("")));
+
+        let chosen_digits_slice: &mut [String] = chosen_digits.as_mut_slice();
+        rng.shuffle(chosen_digits_slice);
+
+        problems.push(format!("\\(\\dfrac{{{}}}{{{}}} = \\dfrac{{{}}}{{{}}} \\)\\\\\\\n\n", 
+            chosen_digits_slice[0],
+            chosen_digits_slice[1],
+            chosen_digits_slice[2],
+            chosen_digits_slice[3]));
     }
 
     for i in 0..division {
