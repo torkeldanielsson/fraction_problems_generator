@@ -15,6 +15,7 @@ fn main() {
     let fraction_add_sub = 2;
     let fraction_multiplication = 4;
     let division = 3;
+    let fraction_equation = 0;
 */
 
     let decimal_add_sub = 0;
@@ -136,7 +137,7 @@ fn main() {
             b = rand::distributions::Range::new(-9, 9).ind_sample(&mut rng);
         }
 
-        let chars = vec!["x", "y", "z", "\\alpha", "\\beta", "\\gamma"];
+        let chars = vec!["x", "y", "z", "\\alpha", "\\beta", "\\gamma", "\\Omega", "\\theta", "\\varphi"];
         let c = rng.choose(&chars).expect("");
 
         let problem;
@@ -212,26 +213,28 @@ fn main() {
     }
 
     for _i in 0..fraction_equation {
-        let mut digits: Vec<i32> = (1..7).collect();
+        let mut digits: Vec<i32> = (2..10).collect();
         let digit_slice: &mut [i32] = digits.as_mut_slice();
         rng.shuffle(digit_slice);
         
         let mut chosen_digits: Vec<String> = Vec::new();
-        for _j in 0..3 {
-            chosen_digits.push(format!("{}", rng.choose(digit_slice).unwrap()));
+        for j in 0..3 {
+            chosen_digits.push(format!("{}", digit_slice[j]));
         }
 
-        let chars = vec!["x", "y", "z", "\\alpha", "\\beta", "\\gamma"];
-        chosen_digits.push(format!("{}", rng.choose(&chars).expect("")));
+        let chars = vec!["x", "y", "z", "\\alpha", "\\beta", "\\gamma", "\\Omega", "\\theta", "\\varphi"];
+        let c = rng.choose(&chars).expect("");
+        chosen_digits.push(format!("{}", c));
 
         let chosen_digits_slice: &mut [String] = chosen_digits.as_mut_slice();
         rng.shuffle(chosen_digits_slice);
 
-        problems.push(format!("\\(\\dfrac{{{}}}{{{}}} = \\dfrac{{{}}}{{{}}} \\)\\\\\\\n\n", 
+        problems.push(format!("\\(\\dfrac{{{}}}{{{}}} = \\dfrac{{{}}}{{{}}}  \\quad \\rightarrow \\quad {} =\\)\\\\\\\n\n", 
             chosen_digits_slice[0],
             chosen_digits_slice[1],
             chosen_digits_slice[2],
-            chosen_digits_slice[3]));
+            chosen_digits_slice[3],
+            c));
     }
 
     for i in 0..division {
