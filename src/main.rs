@@ -25,8 +25,9 @@ fn main() {
     let integer_equation = 0;
     let fraction_add_sub = 0;
     let fraction_multiplication = 0;
-    let fraction_equation = 12;
+    let fraction_equation = 0;
     let division = 0;
+    let unit_conversion = 13;
 
 
     let mut rng = rand::thread_rng();
@@ -250,6 +251,42 @@ fn main() {
         } else {
             problem = format!("\\({} / {} = \\)\\\\\\\n\n", n, d);
         }
+        problems.push(problem);
+    }
+
+    for _i in 0..unit_conversion {
+        let num_a = rand::distributions::Range::new(0, 5).ind_sample(&mut rng);
+        let num_b = rand::distributions::Range::new(0, 4).ind_sample(&mut rng);
+
+        let mut a = format!("{}", rand::distributions::Range::new(1, 10).ind_sample(&mut rng));
+
+        for _j in 0..num_a {
+            a = format!("{}{}", a, rand::distributions::Range::new(0, 10).ind_sample(&mut rng));
+        }
+
+        a = format!("{}.", a);
+
+        for _j in 0..num_b {
+            a = format!("{}{}", a, rand::distributions::Range::new(0, 10).ind_sample(&mut rng));
+        }
+
+        a = format!("{}{}", a, rand::distributions::Range::new(1, 10).ind_sample(&mut rng));
+
+        let mut units = vec![/*"\\mu m", */"mm", "cm", "dm", "m", "km"];
+
+        if 0 == rand::distributions::Range::new(0, 2).ind_sample(&mut rng) {
+            units = vec![/*"\\mu m", */"mg", "g", "hg", "kg", "ton"];
+        }
+
+        let i = rand::distributions::Range::new(0, units.len()).ind_sample(&mut rng);
+        let mut j = i;
+        while i == j {
+            let min_val = std::cmp::max(i as i32 - 2, 0) as usize;
+            let max_val = std::cmp::min(i + 2, units.len());
+            j = rand::distributions::Range::new(min_val, max_val).ind_sample(&mut rng);
+        }
+
+        let problem = format!("\\( {}\\ {} = \\quad \\quad \\quad \\quad  \\quad \\quad {} \\)\\\\\\\n\n", a, units[i], units[j]);
         problems.push(problem);
     }
 
