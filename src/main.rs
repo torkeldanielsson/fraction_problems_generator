@@ -11,11 +11,13 @@ fn main() {
     let power = 3;
     let multiplication = 3;
     let square_root = 2;
-    let integer_equation = 5;
+    let integer_equation = 3;
     let fraction_add_sub = 2;
-    let fraction_multiplication = 4;
+    let fraction_multiplication = 2;
     let division = 3;
-    let fraction_equation = 0;
+    let fraction_equation = 2;
+    let unit_conversion = 2;
+    let percentage = 2;
 */
 
     let decimal_add_sub = 0;
@@ -27,7 +29,11 @@ fn main() {
     let fraction_multiplication = 0;
     let fraction_equation = 0;
     let division = 0;
-    let unit_conversion = 13;
+    let unit_conversion = 0;
+    let percentage1 = 4;
+    let percentage2 = 6;
+    let percentage3 = 10;
+    let percentage4 = 6;
 
 
     let mut rng = rand::thread_rng();
@@ -290,8 +296,47 @@ fn main() {
         problems.push(problem);
     }
 
+    for _i in 0..percentage1 {
+        let a = rand::distributions::Range::new(1, 100).ind_sample(&mut rng);
+        
+        let problem = format!("\\( {}\\% \\textrm{{ av }} 100 =\\)\\\\\\\n\n", a);
+        problems.push(problem);
+    }
+
+    for _i in 0..percentage2 {
+        let a = rand::distributions::Range::new(1, 10).ind_sample(&mut rng);
+        
+        let problem = format!("\\( {}\\% \\textrm{{ av }} 10 =\\)\\\\\\\n\n", 10*a);
+        problems.push(problem);
+    }
+
+    for _i in 0..percentage3 {
+        let a = rand::distributions::Range::new(1, 11).ind_sample(&mut rng);
+        let b = rand::distributions::Range::new(1, 11).ind_sample(&mut rng);
+        
+        let problem = format!("\\( {}\\% \\textrm{{ av }} {} =\\)\\\\\\\n\n", 10*a, 10*b);
+        problems.push(problem);
+    }
+
+    for _i in 0..percentage4 {
+        let mut a: i32 = rand::distributions::Range::new(1, 101).ind_sample(&mut rng);
+
+        let mut b: i32 = 11;
+        while 100 % b != 0 {
+            b = rand::distributions::Range::new(2, 30).ind_sample(&mut rng);
+        }
+
+        a = a/b;
+        if a == 0 {
+            a = 1;
+        }
+        
+        let problem = format!("\\( {}\\% \\textrm{{ av }} {} =\\)\\\\\\\n\n", b*a, 100/b);
+        problems.push(problem);
+    }
+
     let slice: &mut [String] = problems.as_mut_slice();
-    rng.shuffle(slice);
+    //rng.shuffle(slice);
 
     for problem in slice {
         file.write_all(problem.as_bytes()).expect("6");
