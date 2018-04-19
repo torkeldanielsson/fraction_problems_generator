@@ -6,7 +6,7 @@ use rand::distributions::IndependentSample;
 use rand::Rng;
 
 fn main() {
-/*
+
     let decimal_add_sub = 4;
     let power = 3;
     let multiplication = 3;
@@ -17,9 +17,12 @@ fn main() {
     let division = 3;
     let fraction_equation = 2;
     let unit_conversion = 2;
-    let percentage = 2;
-*/
+    let percentage1 = 2;
+    let percentage2 = 2;
+    let percentage3 = 4;
+    let percentage4 = 2;
 
+/*
     let decimal_add_sub = 0;
     let power = 0;
     let multiplication = 0;
@@ -34,7 +37,7 @@ fn main() {
     let percentage2 = 6;
     let percentage3 = 10;
     let percentage4 = 6;
-
+*/
 
     let mut rng = rand::thread_rng();
 
@@ -336,7 +339,7 @@ fn main() {
     }
 
     let slice: &mut [String] = problems.as_mut_slice();
-    //rng.shuffle(slice);
+    rng.shuffle(slice);
 
     for problem in slice {
         file.write_all(problem.as_bytes()).expect("6");
