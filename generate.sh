@@ -1,1 +1,1 @@
-cargo run && pandoc gen.tex -V geometry:margin=1cm -o output.pdf --from latex
+cargo run && luatex --fmt=lualatex gen.tex

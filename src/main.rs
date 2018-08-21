@@ -7,7 +7,7 @@ use rand::Rng;
 
 fn main() {
 
-/*
+
     let decimal_add_sub = 4;
     let power = 3;
     let multiplication = 3;
@@ -22,9 +22,12 @@ fn main() {
     let percentage2 = 0;
     let percentage3 = 2;
     let percentage4 = 2;
-*/
+    let parenthesis_1 = 2;
+    let parenthesis_2 = 0;
+    let trig_1 = 7;
 
 
+/*
     let decimal_add_sub = 0;
     let power = 0;
     let multiplication = 0;
@@ -39,17 +42,29 @@ fn main() {
     let percentage2 = 0;
     let percentage3 = 0;
     let percentage4 = 0;
-    let parenthesis_1 = 13;
+    let parenthesis_1 = 0;
     let parenthesis_2 = 0;
-
+    let trig_1 = 10;
+*/
 
     let mut rng = rand::thread_rng();
 
     let mut file = File::create("gen.tex").unwrap();
-    file.write_all(b"\\documentclass{article}\n").expect("1");
-    file.write_all(b"\\usepackage[a4paper]{geometry}\n").expect("2");
-    file.write_all(b"\\pagenumbering{gobble}\n").expect("3");
-    file.write_all(b"\\begin{document}\n").expect("4");
+    file.write_all(
+b"\\documentclass{article}
+\\usepackage[utf8]{inputenc}
+\\usepackage[a4paper]{geometry}
+\\usepackage{lmodern}
+\\usepackage[T1]{fontenc}
+\\usepackage{graphicx}
+\\usepackage{tikz}
+\\usepackage{textcomp}
+\\usepackage{amsmath}
+\\usetikzlibrary{angles,quotes}
+\\pagenumbering{gobble}
+\\begin{document}").expect("1");
+
+
     file.write_all(b"\n\\huge\n\n").expect("5");
 
     let mut problems = Vec::new();
@@ -406,6 +421,64 @@ fn main() {
         }
         
         let problem = format!("\\( {}{} =\\)\\\\\\\n\n", outer_terms[0], outer_terms[1]);
+        problems.push(problem);
+    }
+
+    for _i in 0..trig_1 {
+        let scale = 0.1;
+        let base: f64 = scale * 50.0;
+        let height: f64 = scale * (rand::distributions::Range::new(5, 50).ind_sample(&mut rng) as f64);
+        let xpos: f64 = scale * (rand::distributions::Range::new(-15, 65).ind_sample(&mut rng) as f64);
+
+        let angle_a = (180.0/3.14159)*((base*xpos) / (base*((xpos*xpos + height*height).sqrt()))).acos();
+        let xpos_2 = xpos - base;
+        let angle_c = (180.0/3.14159)*((-base*xpos_2) / (base*((xpos_2*xpos_2 + height*height).sqrt()))).acos();
+        let angle_b = 180.0 - angle_a - angle_c;
+
+        let mut a_s: String = format!("{:.0}^{{\\circ}}", angle_a);
+        let mut b_s: String = format!("{:.0}^{{\\circ}}", angle_b);
+        let mut c_s: String = format!("{:.0}^{{\\circ}}", angle_c);
+
+        let chars = vec!["a", "b", "c", "x", "y", "z", "\\alpha", "\\beta", "\\gamma", "\\Omega", "\\theta", "\\varphi"];
+        let selected_char: String = format!("{}", rng.choose(&chars).expect(""));
+
+        let r: i32 = rand::distributions::Range::new(0, 3).ind_sample(&mut rng);
+        if r == 0 {
+            a_s = selected_char.clone();
+        } else if r == 1 {
+            b_s = selected_char.clone();
+        } else {
+            c_s = selected_char.clone();
+        }
+
+        let problem = format!(
+"
+\\(
+\\begin{{tikzpicture}}[
+my angle/.style={{
+  every pic quotes/.append style={{text=black}},
+  draw=gray,
+  angle radius=0.5cm,
+}}]
+\\normalsize
+\\coordinate [label=left:${}$] (A) at (0, 0);
+\\coordinate [label=above:${}$] (B) at ({}, {});
+\\coordinate [label=right:${}$] (C) at ({}, 0);
+\\draw (C) -- (B) -- (A) -- (C);
+\\pic [my angle] {{angle=B--C--A}};
+\\pic [my angle] {{angle=A--B--C}};
+\\pic [my angle] {{angle=C--A--B}};
+\\huge
+\\node[] at ({}, {}) {{{} =}};
+\\end{{tikzpicture}}
+\\)\\\\\\
+\\huge
+\n\n", 
+            a_s,
+            b_s, xpos, height,
+            c_s, base,
+            scale*75.0, 0.5*height, selected_char);
+
         problems.push(problem);
     }
 
