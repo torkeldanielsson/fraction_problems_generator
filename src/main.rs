@@ -7,6 +7,7 @@ use rand::Rng;
 
 fn main() {
 
+/*
     let decimal_add_sub = 4;
     let power = 3;
     let multiplication = 3;
@@ -17,12 +18,13 @@ fn main() {
     let division = 3;
     let fraction_equation = 2;
     let unit_conversion = 2;
-    let percentage1 = 2;
-    let percentage2 = 2;
-    let percentage3 = 4;
+    let percentage1 = 0;
+    let percentage2 = 0;
+    let percentage3 = 2;
     let percentage4 = 2;
+*/
 
-/*
+
     let decimal_add_sub = 0;
     let power = 0;
     let multiplication = 0;
@@ -33,11 +35,13 @@ fn main() {
     let fraction_equation = 0;
     let division = 0;
     let unit_conversion = 0;
-    let percentage1 = 4;
-    let percentage2 = 6;
-    let percentage3 = 10;
-    let percentage4 = 6;
-*/
+    let percentage1 = 0;
+    let percentage2 = 0;
+    let percentage3 = 0;
+    let percentage4 = 0;
+    let parenthesis_1 = 13;
+    let parenthesis_2 = 0;
+
 
     let mut rng = rand::thread_rng();
 
@@ -91,7 +95,7 @@ fn main() {
         let mut d : u32 = 12;
         let mut e : u32 = 5;
         while d.pow(e) > 200 {
-            d = rand::distributions::Range::new(1, 12).ind_sample(&mut rng);
+            d = rand::distributions::Range::new(2, 20).ind_sample(&mut rng);
             e = rand::distributions::Range::new(2, 5).ind_sample(&mut rng);
         }
         let problem = format!("\\({}^{} =\\)\\\\\\\n\n", d, e);
@@ -335,6 +339,73 @@ fn main() {
         }
         
         let problem = format!("\\( {}\\% \\textrm{{ av }} {} =\\)\\\\\\\n\n", b*a, 100/b);
+        problems.push(problem);
+    }
+
+    for _i in 0..parenthesis_1 {
+
+        let chars = vec!["a", "b", "c", "x", "y", "z", "i", "j", "k", "\\alpha", "\\beta", "\\gamma", "\\Omega", "\\theta", "\\varphi"];
+
+        let selected_char = rng.choose(&chars).expect("");
+
+        let mut first_term = format!("{}", selected_char);
+        if 0 == rand::distributions::Range::new(0, 2).ind_sample(&mut rng) {
+            first_term = format!("{}", rand::distributions::Range::new(2, 13).ind_sample(&mut rng));
+        }
+
+        let mut sign = "+";
+        if 0 == rand::distributions::Range::new(0, 2).ind_sample(&mut rng) {
+            sign = "-";
+        }
+
+        let mut second_term = format!("({} {} {})", selected_char, sign, rand::distributions::Range::new(2, 13).ind_sample(&mut rng));
+        if 0 == rand::distributions::Range::new(0, 2).ind_sample(&mut rng) {
+            second_term = format!("({} {} {})", rand::distributions::Range::new(2, 13).ind_sample(&mut rng), sign, selected_char);
+        }
+
+        let mut pre_sign = "";
+        if 0 == rand::distributions::Range::new(0, 2).ind_sample(&mut rng) {
+            pre_sign = "-";
+        }
+        
+        let mut problem = format!("\\( {}{}{} =\\)\\\\\\\n\n", pre_sign, first_term, second_term);
+        if 0 == rand::distributions::Range::new(0, 2).ind_sample(&mut rng) {
+            problem = format!("\\( {}{}{} =\\)\\\\\\\n\n", pre_sign, second_term, first_term);
+        }
+
+        problems.push(problem);
+    }
+
+    for _i in 0..parenthesis_2 {
+
+        let chars = vec!["a", "b", "c", "x", "y", "z", "\\alpha", "\\beta", "\\gamma", "\\Omega", "\\theta", "\\varphi"];
+
+        let selected_chars = vec![rng.choose(&chars).expect(""), rng.choose(&chars).expect(""), rng.choose(&chars).expect("")];
+
+        let mut inner_terms = vec!["inner_term".to_owned(), "inner_term".to_owned(), "inner_term".to_owned(), "inner_term".to_owned()];
+
+        for i in 0..inner_terms.len() {
+            if 0 == rand::distributions::Range::new(0, 2).ind_sample(&mut rng) {
+                inner_terms[i] = format!("{}", rand::distributions::Range::new(1, 10).ind_sample(&mut rng));
+            } else {
+                inner_terms[i] = format!("{}", rng.choose(&selected_chars).expect(""));
+            }
+        }
+
+        let mut outer_terms = vec!["outer_term".to_owned(), "outer_term".to_owned()];
+        for i in 0..outer_terms.len() {
+            if i != 1 && 0 == rand::distributions::Range::new(0, 2).ind_sample(&mut rng) {
+                outer_terms[i] = inner_terms[2 * i].to_owned();
+            } else {
+                let mut sign = "+";
+                if 0 == rand::distributions::Range::new(0, 2).ind_sample(&mut rng) {
+                    sign = "-";
+                }
+                outer_terms[i] = format!("({} {} {})", inner_terms[2 * i], sign, inner_terms[2*i + 1]);
+            }
+        }
+        
+        let problem = format!("\\( {}{} =\\)\\\\\\\n\n", outer_terms[0], outer_terms[1]);
         problems.push(problem);
     }
 
