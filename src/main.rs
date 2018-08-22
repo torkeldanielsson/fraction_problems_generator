@@ -24,7 +24,8 @@ fn main() {
     let percentage4 = 2;
     let parenthesis_1 = 2;
     let parenthesis_2 = 0;
-    let trig_1 = 7;
+    let trig_1 = 4;
+    let trig_2 = 3;
 
 
 /*
@@ -44,7 +45,8 @@ fn main() {
     let percentage4 = 0;
     let parenthesis_1 = 0;
     let parenthesis_2 = 0;
-    let trig_1 = 10;
+    let trig_1 = 0;
+    let trig_2 = 10;
 */
 
     let mut rng = rand::thread_rng();
@@ -478,6 +480,67 @@ my angle/.style={{
             b_s, xpos, height,
             c_s, base,
             scale*75.0, 0.5*height, selected_char);
+
+        problems.push(problem);
+    }
+
+    for _i in 0..trig_2 {
+        let scale = 0.1;
+        let base: f64 = scale * 50.0;
+        let height: f64 = scale * (rand::distributions::Range::new(5, 50).ind_sample(&mut rng) as f64);
+        let xpos: f64 = scale * (rand::distributions::Range::new(-15, 65).ind_sample(&mut rng) as f64);
+
+        let angle_a = ((180.0/3.14159)*((base*xpos) / (base*((xpos*xpos + height*height).sqrt()))).acos()).floor();
+        let xpos_2 = xpos - base;
+        let angle_c = ((180.0/3.14159)*((-base*xpos_2) / (base*((xpos_2*xpos_2 + height*height).sqrt()))).acos()).floor();
+        let angle_b = 180.0 - angle_a - angle_c;
+
+        let a_s: String = format!("{:.0}^{{\\circ}}", angle_a);
+        let b_s: String = format!("{:.0}^{{\\circ}}", angle_b);
+        let c_s: String = format!("{:.0}^{{\\circ}}", angle_c);
+
+        let len_modifier: f64 = 0.1*(rand::distributions::Range::new(1, 20).ind_sample(&mut rng) as f64);
+        let base_len: f64 = base * len_modifier;
+        let height_len: f64 = height * len_modifier;
+
+        let units = vec!["mm", "cm", "dm", "m", "km"];
+        let unit: String = format!("{}", rng.choose(&units).expect(""));
+
+        let problem = format!(
+"
+\\(
+\\begin{{tikzpicture}}[
+my angle/.style={{
+  every pic quotes/.append style={{text=black}},
+  draw=gray,
+  angle radius=0.5cm,
+}}]
+\\normalsize
+\\coordinate [label=left:${}$] (A) at (0, 0);
+\\coordinate [label=above:${}$] (B) at ({}, {});
+\\coordinate [label=right:${}$] (C) at ({}, 0);
+\\coordinate (HeightBottom) at (-1, 0);
+\\coordinate (HeightTop) at (-1, {});
+\\draw [gray, dashed] (HeightBottom) -- (A);
+\\draw [gray, dashed] (HeightTop) -- (B);
+\\draw (C) -- (B) -- (A) -- node[below] {{${:.1} {}$}} (C);
+\\draw [dashed] (HeightBottom) -- node[left] {{${:.1} {}$}} (HeightTop);
+\\pic [my angle] {{angle=B--C--A}};
+\\pic [my angle] {{angle=A--B--C}};
+\\pic [my angle] {{angle=C--A--B}};
+\\huge
+\\node[] at ({}, {}) {{area =}};
+\\end{{tikzpicture}}
+\\)\\\\\\
+\\huge
+\n\n", 
+            a_s,
+            b_s, xpos, height,
+            c_s, base,
+            height,
+            base_len, unit,
+            height_len, unit,
+            scale*75.0, 0.5*height);
 
         problems.push(problem);
     }
