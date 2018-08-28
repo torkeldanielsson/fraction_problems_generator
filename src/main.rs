@@ -8,14 +8,15 @@ use rand::Rng;
 fn main() {
 
 
-    let decimal_add_sub = 4;
-    let power = 3;
-    let multiplication = 3;
-    let square_root = 2;
-    let integer_equation = 3;
+    let decimal_add_sub = 2;
+    let power = 1;
+    let multiplication = 2;
+    let square_root = 1;
+    let integer_equation_1 = 0;
+    let integer_equation_2 = 4;
     let fraction_add_sub = 2;
-    let fraction_multiplication = 2;
-    let division = 3;
+    let fraction_multiplication = 1;
+    let division = 2;
     let fraction_equation = 2;
     let unit_conversion = 2;
     let percentage1 = 0;
@@ -111,9 +112,9 @@ b"\\documentclass{article}
     for _i in 0..power {
         let mut d : u32 = 12;
         let mut e : u32 = 5;
-        while d.pow(e) > 200 {
-            d = rand::distributions::Range::new(2, 20).ind_sample(&mut rng);
-            e = rand::distributions::Range::new(2, 5).ind_sample(&mut rng);
+        while d.pow(e) > 500 {
+            d = rand::distributions::Range::new(6, 13).ind_sample(&mut rng);
+            e = rand::distributions::Range::new(3, 5).ind_sample(&mut rng);
         }
         let problem = format!("\\({}^{} =\\)\\\\\\\n\n", d, e);
         problems.push(problem);
@@ -157,7 +158,7 @@ b"\\documentclass{article}
         problems.push(problem);
     }
 
-    for i in 0..integer_equation {
+    for i in 0..integer_equation_1 {
         let mut a = 0;
         while a == 0 {
             a = rand::distributions::Range::new(-9, 9).ind_sample(&mut rng);
@@ -186,6 +187,44 @@ b"\\documentclass{article}
                 sign = "";
             }
             problem = format!("\\({} {} {} = {} \\quad \\rightarrow \\quad {} =\\)\\\\\\\n\n", c, sign, a, b, c);
+        }
+        problems.push(problem);
+    }
+
+    for i in 0..integer_equation_2 {
+        let mut a = 0;
+        while a == 0 {
+            a = rand::distributions::Range::new(2, 13).ind_sample(&mut rng);
+        }
+
+        let mut b = 0;
+        while b == 0 || b == a {
+            b = rand::distributions::Range::new(2, 13).ind_sample(&mut rng);
+        }
+
+        let mut c = 0;
+        while c == 0 || c == a || c == b {
+            c = rand::distributions::Range::new(-20, 21).ind_sample(&mut rng);
+        }
+
+        let chars = vec!["x", "y", "z", "\\alpha", "\\beta", "\\gamma", "\\Omega", "\\theta", "\\varphi"];
+        let selected_char = rng.choose(&chars).expect("");
+
+        let mut sign = "+";
+        if rand::distributions::Range::new(0, 2).ind_sample(&mut rng) == 0 {
+            sign = "-";
+        }
+
+        let problem;
+
+        if i % 2 == 1 {
+            problem = format!("\\({}{} {} {} = {} \\quad \\rightarrow \\quad {} =\\)\\\\\\\n\n", a, selected_char, sign, b, c, selected_char);
+
+        } else {
+            if a < 0 {
+                sign = "";
+            }
+            problem = format!("\\({} {} {}{} = {} \\quad \\rightarrow \\quad {} =\\)\\\\\\\n\n", a, sign, b, selected_char, c, selected_char);
         }
         problems.push(problem);
     }
@@ -335,15 +374,15 @@ b"\\documentclass{article}
     }
 
     for _i in 0..percentage3 {
-        let a = rand::distributions::Range::new(1, 11).ind_sample(&mut rng);
-        let b = rand::distributions::Range::new(1, 11).ind_sample(&mut rng);
+        let a = rand::distributions::Range::new(1, 10).ind_sample(&mut rng);
+        let b = rand::distributions::Range::new(1, 10).ind_sample(&mut rng);
         
         let problem = format!("\\( {}\\% \\textrm{{ av }} {} =\\)\\\\\\\n\n", 10*a, 10*b);
         problems.push(problem);
     }
 
     for _i in 0..percentage4 {
-        let mut a: i32 = rand::distributions::Range::new(1, 101).ind_sample(&mut rng);
+        let mut a: i32 = rand::distributions::Range::new(1, 100).ind_sample(&mut rng);
 
         let mut b: i32 = 11;
         while 100 % b != 0 {
