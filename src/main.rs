@@ -14,7 +14,7 @@ fn main() {
     let square_root = 1;
     let integer_equation_1 = 0;
     let integer_equation_2 = 4;
-    let fraction_add_sub = 2;
+    let fraction_add_sub = 3;
     let fraction_multiplication = 1;
     let division = 2;
     let fraction_equation = 2;
@@ -24,7 +24,7 @@ fn main() {
     let percentage3 = 2;
     let percentage4 = 2;
     let parenthesis_1 = 2;
-    let parenthesis_2 = 0;
+    let parenthesis_2 = 1;
     let trig_1 = 4;
     let trig_2 = 3;
 
@@ -34,8 +34,9 @@ fn main() {
     let power = 0;
     let multiplication = 0;
     let square_root = 0;
-    let integer_equation = 0;
-    let fraction_add_sub = 0;
+    let integer_equation_1 = 0;
+    let integer_equation_2 = 0;
+    let fraction_add_sub = 14;
     let fraction_multiplication = 0;
     let fraction_equation = 0;
     let division = 0;
@@ -47,7 +48,7 @@ fn main() {
     let parenthesis_1 = 0;
     let parenthesis_2 = 0;
     let trig_1 = 0;
-    let trig_2 = 10;
+    let trig_2 = 0;
 */
 
     let mut rng = rand::thread_rng();
@@ -230,15 +231,18 @@ b"\\documentclass{article}
     }
 
     for i in 0..fraction_add_sub {
-        let mut a = rand::distributions::Range::new(2, 13).ind_sample(&mut rng);
+
+        let max_val = 11;
+
+        let mut a = rand::distributions::Range::new(2, max_val).ind_sample(&mut rng);
         let mut b = a;
         while b == a {
-            b = rand::distributions::Range::new(2, 13).ind_sample(&mut rng);
+            b = rand::distributions::Range::new(2, max_val).ind_sample(&mut rng);
         }
-        let mut c = rand::distributions::Range::new(2, 13).ind_sample(&mut rng);
+        let mut c = rand::distributions::Range::new(2, max_val).ind_sample(&mut rng);
         let mut d = c;
         while d == c || d == b {
-            d = rand::distributions::Range::new(2, 13).ind_sample(&mut rng);
+            d = rand::distributions::Range::new(2, max_val).ind_sample(&mut rng);
         }
         if i % 2 == 1 {
             a = rand::distributions::Range::new(2, 7).ind_sample(&mut rng);
@@ -256,7 +260,7 @@ b"\\documentclass{article}
             problem = format!("\\(\\dfrac{{{}}}{{{}}}", a, b);
         }
         if i % 2 == 0 {
-            problem = format!("{} + ", problem);            
+            problem = format!("{} + ", problem);
         } else {
             problem = format!("{} - ", problem);            
         }
