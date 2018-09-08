@@ -7,49 +7,80 @@ use rand::Rng;
 
 fn main() {
 
+    let foff = false;
+    let linn = false;
 
-    let decimal_add_sub = 2;
-    let power = 1;
-    let multiplication = 2;
-    let square_root = 1;
-    let integer_equation_1 = 0;
-    let integer_equation_2 = 4;
-    let fraction_add_sub = 3;
-    let fraction_multiplication = 1;
-    let division = 2;
-    let fraction_equation = 2;
-    let unit_conversion = 2;
-    let percentage1 = 0;
-    let percentage2 = 0;
-    let percentage3 = 2;
-    let percentage4 = 2;
-    let parenthesis_1 = 2;
-    let parenthesis_2 = 1;
-    let trig_1 = 4;
-    let trig_2 = 3;
+    let single = true;
 
+    let mut decimal_add_sub = 0;
+    let mut power = 0;
+    let mut multiplication = 0;
+    let mut multiplication_decimal = 0;
+    let mut square_root = 0;
+    let mut integer_equation_1 = 0;
+    let mut integer_equation_2 = 0;
+    let mut fraction_add_sub = 0;
+    let mut fraction_multiplication = 0;
+    let mut division = 0;
+    let mut fraction_equation = 0;
+    let mut unit_conversion = 0;
+    let mut percentage1 = 0;
+    let mut percentage2 = 0;
+    let mut percentage3 = 0;
+    let mut percentage4 = 0;
+    let mut parenthesis_1 = 0;
+    let mut parenthesis_2 = 0;
+    let mut trig_1 = 0;
+    let mut trig_2 = 0;
 
-/*
-    let decimal_add_sub = 0;
-    let power = 0;
-    let multiplication = 0;
-    let square_root = 0;
-    let integer_equation_1 = 0;
-    let integer_equation_2 = 0;
-    let fraction_add_sub = 14;
-    let fraction_multiplication = 0;
-    let fraction_equation = 0;
-    let division = 0;
-    let unit_conversion = 0;
-    let percentage1 = 0;
-    let percentage2 = 0;
-    let percentage3 = 0;
-    let percentage4 = 0;
-    let parenthesis_1 = 0;
-    let parenthesis_2 = 0;
-    let trig_1 = 0;
-    let trig_2 = 0;
-*/
+    if single {
+        multiplication_decimal = 12;
+    }
+
+    if linn {
+        decimal_add_sub = 2;
+        power = 1;
+        multiplication = 2;
+        multiplication_decimal = 2;
+        square_root = 1;
+        integer_equation_1 = 0;
+        integer_equation_2 = 4;
+        fraction_add_sub = 3;
+        fraction_multiplication = 1;
+        division = 2;
+        fraction_equation = 2;
+        unit_conversion = 2;
+        percentage1 = 0;
+        percentage2 = 0;
+        percentage3 = 2;
+        percentage4 = 2;
+        parenthesis_1 = 2;
+        parenthesis_2 = 1;
+        trig_1 = 4;
+        trig_2 = 3;     
+    }
+
+    if foff {
+        decimal_add_sub = 0;
+        power = 0;
+        multiplication = 0;
+        square_root = 0;
+        integer_equation_1 = 0;
+        integer_equation_2 = 0;
+        fraction_add_sub = 14;
+        fraction_multiplication = 0;
+        fraction_equation = 0;
+        division = 0;
+        unit_conversion = 0;
+        percentage1 = 0;
+        percentage2 = 0;
+        percentage3 = 0;
+        percentage4 = 0;
+        parenthesis_1 = 0;
+        parenthesis_2 = 0;
+        trig_1 = 0;
+        trig_2 = 0;
+    }
 
     let mut rng = rand::thread_rng();
 
@@ -150,6 +181,25 @@ b"\\documentclass{article}
             problem = format!("{}{}", problem, b);
         }
         problem = format!("{}=\\)\\\\\\\n\n", problem);
+        problems.push(problem);
+    }
+
+    for _i in 0..multiplication_decimal {
+        let mut a: i32 = rand::distributions::Range::new(3, 10).ind_sample(&mut rng);
+        let mut b = 0;
+        while b == 0 || b == a {
+            b = rand::distributions::Range::new(3, 10).ind_sample(&mut rng);
+        }
+        let mut c = 0;
+        while c == 0 || c == a || c == b {
+            c = rand::distributions::Range::new(3, 10).ind_sample(&mut rng);
+        }
+        let mut d = 0;
+        while d == 0 || d == a || d == b || d == c {
+            d = rand::distributions::Range::new(3, 10).ind_sample(&mut rng);
+        }
+
+        let problem = format!("\\({}.{} \\cdot {}.{} =\\)\\\\\\\n\n", a, b, c, d);
         problems.push(problem);
     }
 
