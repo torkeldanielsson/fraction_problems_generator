@@ -34,7 +34,11 @@ fn main() {
     let mut trig_2 = 0;
 
     if single {
-        multiplication_decimal = 12;
+        integer_equation_1 = 4;
+        fraction_add_sub = 12;
+        fraction_equation = 12;
+        fraction_multiplication = 12;
+        division = 40;
     }
 
     if linn {
@@ -57,7 +61,7 @@ fn main() {
         parenthesis_1 = 2;
         parenthesis_2 = 1;
         trig_1 = 4;
-        trig_2 = 3;     
+        trig_2 = 3;
     }
 
     if foff {
@@ -100,7 +104,7 @@ b"\\documentclass{article}
 \\begin{document}").expect("1");
 
 
-    file.write_all(b"\n\\huge\n\n").expect("5");
+    file.write_all(b"\n\\large\n\n").expect("5");
 
     let mut problems = Vec::new();
 
@@ -563,11 +567,11 @@ my angle/.style={{
 \\pic [my angle] {{angle=B--C--A}};
 \\pic [my angle] {{angle=A--B--C}};
 \\pic [my angle] {{angle=C--A--B}};
-\\huge
+\\large
 \\node[] at ({}, {}) {{{} =}};
 \\end{{tikzpicture}}
 \\)\\\\\\
-\\huge
+\\large
 \n\n", 
             a_s,
             b_s, xpos, height,
@@ -621,11 +625,11 @@ my angle/.style={{
 \\pic [my angle] {{angle=B--C--A}};
 \\pic [my angle] {{angle=A--B--C}};
 \\pic [my angle] {{angle=C--A--B}};
-\\huge
+\\large
 \\node[] at ({}, {}) {{area =}};
 \\end{{tikzpicture}}
 \\)\\\\\\
-\\huge
+\\large
 \n\n", 
             a_s,
             b_s, xpos, height,
@@ -641,7 +645,10 @@ my angle/.style={{
     let slice: &mut [String] = problems.as_mut_slice();
     rng.shuffle(slice);
 
+    let mut counter = 1;
     for problem in slice {
+        file.write_all(format!("\\tiny\n({})\\quad\\quad\\quad\n\\large\n", counter).as_bytes()).expect("6a");
+        counter += 1;
         file.write_all(problem.as_bytes()).expect("6");
     }
 
