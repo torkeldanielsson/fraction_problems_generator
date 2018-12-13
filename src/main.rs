@@ -23,7 +23,9 @@ fn main() {
     let mut fraction_multiplication = 0;
     let mut division = 0;
     let mut fraction_equation = 0;
-    let mut unit_conversion = 0;
+    let mut unit_conversion_1 = 0;
+    let mut unit_conversion_2 = 0;
+    let mut unit_conversion_3 = 0;
     let mut percentage1 = 0;
     let mut percentage2 = 0;
     let mut percentage3 = 0;
@@ -34,26 +36,24 @@ fn main() {
     let mut trig_2 = 0;
 
     if single {
-        integer_equation_1 = 4;
-        fraction_add_sub = 12;
-        fraction_equation = 12;
-        fraction_multiplication = 12;
-        division = 40;
+        unit_conversion_3 = 50;
     }
 
     if linn {
         decimal_add_sub = 2;
-        power = 1;
+        power = 3;
         multiplication = 2;
         multiplication_decimal = 2;
         square_root = 1;
-        integer_equation_1 = 0;
+        integer_equation_1 = 5;
         integer_equation_2 = 4;
-        fraction_add_sub = 3;
-        fraction_multiplication = 1;
+        fraction_add_sub = 7;
+        fraction_multiplication = 7;
         division = 2;
         fraction_equation = 2;
-        unit_conversion = 2;
+        unit_conversion_1 = 2;
+        unit_conversion_2 = 2;
+        unit_conversion_3 = 0;
         percentage1 = 0;
         percentage2 = 0;
         percentage3 = 2;
@@ -65,25 +65,25 @@ fn main() {
     }
 
     if foff {
-        decimal_add_sub = 0;
+        decimal_add_sub = 2;
         power = 0;
-        multiplication = 0;
+        multiplication = 2;
         square_root = 0;
-        integer_equation_1 = 0;
+        integer_equation_1 = 4;
         integer_equation_2 = 0;
-        fraction_add_sub = 14;
-        fraction_multiplication = 0;
-        fraction_equation = 0;
-        division = 0;
-        unit_conversion = 0;
-        percentage1 = 0;
+        fraction_add_sub = 8;
+        fraction_multiplication = 3;
+        fraction_equation = 2;
+        division = 2;
+        unit_conversion_1 = 2;
+        percentage1 = 1;
         percentage2 = 0;
         percentage3 = 0;
         percentage4 = 0;
-        parenthesis_1 = 0;
-        parenthesis_2 = 0;
-        trig_1 = 0;
-        trig_2 = 0;
+        parenthesis_1 = 2;
+        parenthesis_2 = 2;
+        trig_1 = 2;
+        trig_2 = 2;
     }
 
     let mut rng = rand::thread_rng();
@@ -381,7 +381,7 @@ b"\\documentclass{article}
         problems.push(problem);
     }
 
-    for _i in 0..unit_conversion {
+    for _i in 0..unit_conversion_1 {
         let num_a = rand::distributions::Range::new(0, 5).ind_sample(&mut rng);
         let num_b = rand::distributions::Range::new(0, 4).ind_sample(&mut rng);
 
@@ -414,6 +414,95 @@ b"\\documentclass{article}
         }
 
         let problem = format!("\\( {}\\ {} = \\quad \\quad \\quad \\quad  \\quad \\quad {} \\)\\\\\\\n\n", a, units[i], units[j]);
+        problems.push(problem);
+    }
+
+    for _i in 0..unit_conversion_2 {
+        let num_a = rand::distributions::Range::new(0, 3).ind_sample(&mut rng);
+        let num_b = rand::distributions::Range::new(0, 3).ind_sample(&mut rng);
+
+        let mut a = format!("{}", rand::distributions::Range::new(1, 10).ind_sample(&mut rng));
+
+        for _j in 0..num_a {
+            a = format!("{}{}", a, rand::distributions::Range::new(0, 10).ind_sample(&mut rng));
+        }
+
+        a = format!("{}.", a);
+
+        for _j in 0..num_b {
+            a = format!("{}{}", a, rand::distributions::Range::new(0, 10).ind_sample(&mut rng));
+        }
+
+        a = format!("{}{}", a, rand::distributions::Range::new(1, 10).ind_sample(&mut rng));
+
+        let units = vec!["Wh", "b", "l", "g", "m"];
+
+        let unit = rng.choose(&units).expect("");
+
+        let prefixes = match unit.as_ref() {
+            "Wh" => vec!["", "k", "M", "G", "T"],
+            "b" => vec!["k", "M", "G", "T"],
+            "l" => vec!["\\mu ", "m", "c", "d", ""],
+            "g" => vec!["\\mu ", "m", "", "h", "k"],
+            "m" => vec!["\\mu ", "m", "c", "d", "", "k"],
+            _ => vec!["\\mu ", "m", "c", "d", "", "k"],
+        };
+
+        let prefix_1 = rng.choose(&prefixes).expect("");
+
+        let mut prefix_2 = rng.choose(&prefixes).expect("");
+        while prefix_1 == prefix_2 {
+            prefix_2 = rng.choose(&prefixes).expect("");
+        }
+
+        let problem = format!("\\( {}\\ {}{} = \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad  \\quad \\quad {}{} \\)\\\\\\\n\n", a, prefix_1, unit, prefix_2, unit);
+        problems.push(problem);
+    }
+
+    for _i in 0..unit_conversion_3 {
+        let a = rand::distributions::Range::new(1, 21).ind_sample(&mut rng);
+        let t = rand::distributions::Range::new(1, 21).ind_sample(&mut rng);
+        let b = t * a;
+
+        let vehicles = vec!["rymdskepp", "fartyg", "slott", "hotell", "universitet"];
+
+        let vehicle = rng.choose(&vehicles).expect("");
+
+        let units = vec!["Wh", "b", "l", "g", "m"];
+
+        let unit = rng.choose(&units).expect("");
+
+        let prefixes = match unit.as_ref() {
+            "Wh" => vec!["", "k", "M", "G", "T"],
+            "b" => vec!["k", "M", "G", "T"],
+            "l" => vec!["\\mu ", "m", "c", "d", ""],
+            "g" => vec!["\\mu ", "m", "", "h", "k"],
+            "m" => vec!["\\mu ", "m", "c", "d", "", "k"],
+            _ => vec!["\\mu ", "m", "c", "d", "", "k"],
+        };
+
+        let half_num_prefixes = prefixes.len() / 2;
+
+        let prefix_1_index = rand::distributions::Range::new(0, half_num_prefixes).ind_sample(&mut rng);
+        let prefix_2_index = rand::distributions::Range::new(half_num_prefixes, prefixes.len()).ind_sample(&mut rng);
+
+        let prefix_1 = prefixes[prefix_1_index];
+        let prefix_2 = prefixes[prefix_2_index];
+
+        let stuffs = match unit.as_ref() {
+            "Wh" => vec!["elektricitet"],
+            "b" => vec!["bilder", "ljudböcker", "filmer", "datatrafik för snapchat"],
+            "l" => vec!["vatten", "bensin", "nyponsoppa", "nagellack", "munskölj"],
+            "g" => vec!["saffran", "stål", "jord", "trä", "müsli"],
+            "m" => vec!["hår", "snöre", "slang"],
+            _ => vec!["sak"],
+        };
+
+        let stuff = rng.choose(&stuffs).expect("");
+
+        let problem = format!("På ett stort {} behövs {} {}{} {}. På ett mindre {} behövs bara {} {}{} {}. Hur många gånger mer {} behövs på det stora {}et?\\\\\\\n\n", 
+                vehicle, b, prefix_2, unit, stuff, vehicle, a, prefix_1, unit, stuff, stuff, vehicle);
+
         problems.push(problem);
     }
 
