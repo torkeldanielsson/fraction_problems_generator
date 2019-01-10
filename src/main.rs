@@ -12,6 +12,8 @@ fn main() {
 
     let single = true;
 
+    let mut red_math_book_101 = 0;
+    let mut red_math_book_102 = 0;
     let mut decimal_add_sub = 0;
     let mut power = 0;
     let mut multiplication = 0;
@@ -36,10 +38,11 @@ fn main() {
     let mut trig_2 = 0;
 
     if single {
-        unit_conversion_3 = 50;
+        red_math_book_102 = 50;
     }
 
     if linn {
+        red_math_book_101 = 4;
         decimal_add_sub = 2;
         power = 3;
         multiplication = 2;
@@ -53,9 +56,9 @@ fn main() {
         fraction_equation = 2;
         unit_conversion_1 = 2;
         unit_conversion_2 = 2;
-        unit_conversion_3 = 0;
-        percentage1 = 0;
-        percentage2 = 0;
+        unit_conversion_3 = 4;
+        percentage1 = 1;
+        percentage2 = 1;
         percentage3 = 2;
         percentage4 = 2;
         parenthesis_1 = 2;
@@ -65,6 +68,7 @@ fn main() {
     }
 
     if foff {
+        red_math_book_101 = 4;
         decimal_add_sub = 2;
         power = 0;
         multiplication = 2;
@@ -73,7 +77,7 @@ fn main() {
         integer_equation_2 = 0;
         fraction_add_sub = 8;
         fraction_multiplication = 3;
-        fraction_equation = 2;
+        fraction_equation = 20;
         division = 2;
         unit_conversion_1 = 2;
         percentage1 = 1;
@@ -107,6 +111,35 @@ b"\\documentclass{article}
     file.write_all(b"\n\\large\n\n").expect("5");
 
     let mut problems = Vec::new();
+
+    for _i in 0..red_math_book_101 {
+        let a: i32 = -rand::distributions::Range::new(2, 10).ind_sample(&mut rng);
+        let b = -rand::distributions::Range::new(2, 10).ind_sample(&mut rng);
+
+        let problem = match rand::distributions::Range::new(0, 4).ind_sample(&mut rng) {
+            0 => format!("\\(\\left({}\\right)\\left({}\\right) =\\)\\\\\\\n\n", a, b),
+            1 => format!("\\(\\left({}\\right){} =\\)\\\\\\\n\n", a, b),
+            2 => format!("\\({}\\left({}\\right) =\\)\\\\\\\n\n", a, b),
+            3 => format!("\\({}{} =\\)\\\\\\\n\n", a, b),
+            _ => format!("\\({}{} =\\)\\\\\\\n\n", a, b),
+        };
+        problems.push(problem);
+    }
+
+    for _i in 0..red_math_book_102 {
+        let a: i32 = rand::distributions::Range::new(2, 10).ind_sample(&mut rng);
+        let b = rand::distributions::Range::new(2, 10).ind_sample(&mut rng);
+        let c = rand::distributions::Range::new(2, 10).ind_sample(&mut rng);
+
+        let problem = match rand::distributions::Range::new(0, 4).ind_sample(&mut rng) {
+            0 => format!("\\(\\left({}-{}\\right)\\left(-{}\\right) =\\)\\\\\\\n\n", a, b, c),
+            1 => format!("\\(\\left({}-{}\\right)-{} =\\)\\\\\\\n\n", a, b, c),
+            2 => format!("\\({}-\\left({}-{}\\right) =\\)\\\\\\\n\n", a, b, c),
+            3 => format!("\\({}-{}-{} =\\)\\\\\\\n\n", a, b, c),
+            _ => format!("\\({}{} =\\)\\\\\\\n\n", a, b),
+        };
+        problems.push(problem);
+    }
 
     for _i in 0..decimal_add_sub {
         let a_ints = rand::distributions::Range::new(1, 4).ind_sample(&mut rng);
@@ -468,13 +501,13 @@ b"\\documentclass{article}
 
         let vehicle = rng.choose(&vehicles).expect("");
 
-        let units = vec!["Wh", "b", "l", "g", "m"];
+        let units = vec!["Wh", "B", "l", "g", "m"];
 
         let unit = rng.choose(&units).expect("");
 
         let prefixes = match unit.as_ref() {
             "Wh" => vec!["", "k", "M", "G", "T"],
-            "b" => vec!["k", "M", "G", "T"],
+            "B" => vec!["k", "M", "G", "T"],
             "l" => vec!["\\mu ", "m", "c", "d", ""],
             "g" => vec!["\\mu ", "m", "", "h", "k"],
             "m" => vec!["\\mu ", "m", "c", "d", "", "k"],
