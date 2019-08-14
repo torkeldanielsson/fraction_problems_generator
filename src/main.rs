@@ -12,6 +12,7 @@ fn main() {
 
     let single = true;
 
+    let mut simple_add_sub_1 = 0;
     let mut red_math_book_101 = 0;
     let mut red_math_book_102 = 0;
     let mut decimal_add_sub = 0;
@@ -38,11 +39,12 @@ fn main() {
     let mut trig_2 = 0;
 
     if single {
-        red_math_book_102 = 50;
+        simple_add_sub_1 = 50;
     }
 
     if linn {
         red_math_book_101 = 4;
+        red_math_book_102 = 4;
         decimal_add_sub = 2;
         power = 3;
         multiplication = 2;
@@ -69,6 +71,7 @@ fn main() {
 
     if foff {
         red_math_book_101 = 4;
+        red_math_book_102 = 4;
         decimal_add_sub = 2;
         power = 0;
         multiplication = 2;
@@ -111,6 +114,25 @@ b"\\documentclass{article}
     file.write_all(b"\n\\large\n\n").expect("5");
 
     let mut problems = Vec::new();
+
+    for _i in 0..simple_add_sub_1 {
+        let mut a: i32 = 0;
+        let mut b: i32 = 0;
+
+        while a % 10 == 0 {
+            a = rand::distributions::Range::new(-99, 99).ind_sample(&mut rng);
+        }
+
+        while b % 10 == 0 && a != b {
+            b = rand::distributions::Range::new(6, 19).ind_sample(&mut rng);
+        }
+
+        let problem = match rand::distributions::Range::new(0, 2).ind_sample(&mut rng) {
+            0 => format!("\\({} + {} =\\)\\\\\\\n\n", a, b),
+            _ => format!("\\({} - {} =\\)\\\\\\\n\n", a, b),
+        };
+        problems.push(problem);
+    }
 
     for _i in 0..red_math_book_101 {
         let a: i32 = -rand::distributions::Range::new(2, 10).ind_sample(&mut rng);
@@ -222,7 +244,7 @@ b"\\documentclass{article}
     }
 
     for _i in 0..multiplication_decimal {
-        let mut a: i32 = rand::distributions::Range::new(3, 10).ind_sample(&mut rng);
+        let a: i32 = rand::distributions::Range::new(3, 10).ind_sample(&mut rng);
         let mut b = 0;
         while b == 0 || b == a {
             b = rand::distributions::Range::new(3, 10).ind_sample(&mut rng);
