@@ -5,12 +5,24 @@ use std::io::prelude::*;
 use rand::distributions::IndependentSample;
 use rand::Rng;
 
+fn letter_name(c: &str) -> &str {
+    match c.as_ref() {
+        "\\alpha" => " (alpha)",
+        "\\beta" => " (beta)",
+        "\\gamma" => " (gamma)",
+        "\\Omega" => " (omega)",
+        "\\theta" => " (theta)",
+        "\\varphi" => " (phi)",
+        _ => "",
+    }
+}
+
 fn main() {
 
-    let foff = false;
+    let foff = true;
     let linn = false;
 
-    let single = true;
+    let single = false;
 
     let mut simple_add_sub_1 = 0;
     let mut red_math_book_101 = 0;
@@ -70,27 +82,27 @@ fn main() {
     }
 
     if foff {
-        red_math_book_101 = 4;
-        red_math_book_102 = 4;
-        decimal_add_sub = 2;
-        power = 0;
-        multiplication = 2;
+        red_math_book_101 = 0;
+        red_math_book_102 = 0;
+        decimal_add_sub = 0;
+        power = 5;
+        multiplication = 5;
         square_root = 0;
-        integer_equation_1 = 4;
-        integer_equation_2 = 0;
-        fraction_add_sub = 8;
-        fraction_multiplication = 3;
-        fraction_equation = 20;
-        division = 2;
-        unit_conversion_1 = 2;
-        percentage1 = 1;
+        integer_equation_1 = 5;
+        integer_equation_2 = 5;
+        fraction_add_sub = 5;
+        fraction_multiplication = 5;
+        fraction_equation = 5;
+        division = 5;
+        unit_conversion_1 = 5;
+        percentage1 = 0;
         percentage2 = 0;
         percentage3 = 0;
-        percentage4 = 0;
-        parenthesis_1 = 2;
-        parenthesis_2 = 2;
-        trig_1 = 2;
-        trig_2 = 2;
+        percentage4 = 50;
+        parenthesis_1 = 5;
+        parenthesis_2 = 5;
+        trig_1 = 0;
+        trig_2 = 0;
     }
 
     let mut rng = rand::thread_rng();
@@ -290,13 +302,13 @@ b"\\documentclass{article}
         }
 
         if i % 2 == 1 {
-            problem = format!("\\({} {} {} = {} \\quad \\rightarrow \\quad {} =\\)\\\\\\\n\n", a, sign, c, b, c);
+            problem = format!("\\({} {} {} = {} \\quad \\rightarrow \\quad {}{} =\\)\\\\\\\n\n", a, sign, c, b, c, letter_name(c));
 
         } else {
             if a < 0 {
                 sign = "";
             }
-            problem = format!("\\({} {} {} = {} \\quad \\rightarrow \\quad {} =\\)\\\\\\\n\n", c, sign, a, b, c);
+            problem = format!("\\({} {} {} = {} \\quad \\rightarrow \\quad {}{} =\\)\\\\\\\n\n", c, sign, a, b, c, letter_name(c));
         }
         problems.push(problem);
     }
@@ -328,13 +340,13 @@ b"\\documentclass{article}
         let problem;
 
         if i % 2 == 1 {
-            problem = format!("\\({}{} {} {} = {} \\quad \\rightarrow \\quad {} =\\)\\\\\\\n\n", a, selected_char, sign, b, c, selected_char);
+            problem = format!("\\({}{} {} {} = {} \\quad \\rightarrow \\quad {}{} =\\)\\\\\\\n\n", a, selected_char, sign, b, c, selected_char, letter_name(selected_char));
 
         } else {
             if a < 0 {
                 sign = "";
             }
-            problem = format!("\\({} {} {}{} = {} \\quad \\rightarrow \\quad {} =\\)\\\\\\\n\n", a, sign, b, selected_char, c, selected_char);
+            problem = format!("\\({} {} {}{} = {} \\quad \\rightarrow \\quad {}{} =\\)\\\\\\\n\n", a, sign, b, selected_char, c, selected_char, letter_name(selected_char));
         }
         problems.push(problem);
     }
@@ -412,12 +424,13 @@ b"\\documentclass{article}
         let chosen_digits_slice: &mut [String] = chosen_digits.as_mut_slice();
         rng.shuffle(chosen_digits_slice);
 
-        problems.push(format!("\\(\\dfrac{{{}}}{{{}}} = \\dfrac{{{}}}{{{}}}  \\quad \\rightarrow \\quad {} =\\)\\\\\\\n\n", 
+        problems.push(format!("\\(\\dfrac{{{}}}{{{}}} = \\dfrac{{{}}}{{{}}}  \\quad \\rightarrow \\quad {}{} =\\)\\\\\\\n\n", 
             chosen_digits_slice[0],
             chosen_digits_slice[1],
             chosen_digits_slice[2],
             chosen_digits_slice[3],
-            c));
+            c,
+            letter_name(c)));
     }
 
     for i in 0..division {
